@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Our Startup Journey | Core Team Application</title>
+    <meta name="description"
+        content="Join our legal, tech, and marketing core team to build an innovative startup from the ground up.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --bg: #0b0f1a;
+            --card-bg: rgba(17, 24, 39, 0.8);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --success: #10b981;
+            --accent: #818cf8;
+        }
+
+        /* Custom Modern Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+            background-clip: content-box;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            background-image:
+                radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(236, 72, 153, 0.08) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 1rem;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            perspective: 1000px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 3.5rem;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.6);
+            animation: cardAppear 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            margin-bottom: 3.5rem;
+            text-align: left;
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .description {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            max-width: 600px;
+            font-weight: 300;
+        }
+
+        .section {
+            display: none;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: all 0.4s ease-out;
+        }
+
+        .section.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .section-header i {
+            color: var(--accent);
+            width: 20px;
+            height: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--secondary);
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            appearance: none;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1.25rem center;
+            background-size: 1.2rem;
+            padding-right: 3rem;
+            cursor: pointer;
+        }
+
+        select option {
+            background-color: #0b0f1a;
+            color: #ffffff;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #64748b;
+            opacity: 1;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: rgba(99, 102, 241, 0.8);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.6rem;
+            font-style: italic;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card:hover {
+            border-color: var(--accent);
+            background: rgba(99, 102, 241, 0.04);
+            transform: translateY(-2px);
+        }
+
+        .option-card.selected {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 8px 25px -10px rgba(99, 102, 241, 0.4);
+        }
+
+        .option-card input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .option-card i {
+            width: 20px;
+            height: 20px;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+
+        .option-card.selected i {
+            color: var(--accent);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.85rem;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 1.25rem;
+            margin-top: 3.5rem;
+        }
+
+        .btn {
+            padding: 1.1rem 2.25rem;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex: 1;
+            letter-spacing: 0.01em;
+        }
+
+        .btn i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .btn-primary {
+            background: #f8fafc;
+            color: #0f172a;
+            box-shadow: 0 10px 30px -10px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            background: #ffffff;
+            box-shadow: 0 15px 40px -10px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Success Message */
+        .success-card {
+            text-align: center;
+            padding: 3rem 0;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .success-icon-container {
+            width: 80px;
+            height: 80px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 2.5rem;
+            color: var(--success);
+        }
+
+        .success-icon-container i {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Admin Styles */
+        #admin-link {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+            border-radius: 8px;
+        }
+
+        #admin-link:hover {
+            opacity: 1;
+            background: var(--glass);
+            border-color: var(--border);
+        }
+
+        #admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #060911;
+            z-index: 1000;
+            padding: 3rem;
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        th,
+        td {
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.03);
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .login-overlay,
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 9, 17, 0.98);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1100;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+        }
+
+        .detail-modal {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 3.5rem;
+            position: relative;
+        }
+
+        .detail-item {
+            margin-bottom: 1.75rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .detail-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .view-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.5rem 0;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        /* Sidebar & Navigation */
+        .app-layout {
+            display: flex;
+            gap: 2rem;
+            width: 100%;
+            max-width: 1100px;
+            align-items: flex-start;
+        }
+
+        .sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 1.5rem;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .nav-item.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .nav-item i {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Tracking Portal Styles */
+        #tracking-portal {
+            display: none;
+            width: 100%;
+        }
+
+        .search-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .search-container input {
+            padding-right: 4rem;
+        }
+
+        .search-container .search-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.5rem 1rem;
+            background: var(--accent);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .status-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        .status-accepted {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .app-id-display {
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 1.25rem;
+            color: var(--accent);
+            margin: 1rem 0;
+            display: inline-block;
+        }
+
+        @media (max-width: 900px) {
+            .app-layout {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .card {
+                padding: 2.5rem 1.75rem;
+            }
+
+            h1 {
+                font-size: 2.25rem;
+            }
+
+            .btn-container {
+                flex-direction: column;
+            }
+
+            .detail-modal {
+                padding: 2.5rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="nav-item active" id="nav-apply">
+                <i data-lucide="edit-3"></i>
+                <span>Recruitment Form</span>
+            </div>
+            <div class="nav-item" id="nav-track">
+                <i data-lucide="search"></i>
+                <span>Track Application</span>
+            </div>
+        </aside>
+
+        <div class="container">
+            <div class="card" id="form-card">
+                <header>
+                    <h1>Join Our Startup Journey</h1>
+                    <p class="description">We are assembling a specialized core team to build an innovative product from
+                        the
+                        ground up.</p>
+                </header>
+
+                <form id="recruitment-form">
+                    <!-- Section 1: Basic Information -->
+                    <div class="section active" data-step="1">
+                        <div class="section-header">
+                            <i data-lucide="user"></i>
+                            <h2>Section 1: Basic Information</h2>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Full Name</label>
+                            <input type="text" name="fullName" required data-required="true" placeholder="John Doe">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Email Address</label>
+                            <input type="email" name="email" required data-required="true"
+                                placeholder="john@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Phone Number</label>
+                            <input type="tel" name="phone" required data-required="true" placeholder="+1 234 567 890">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Links to Your Work / Profile</label>
+                            <input type="text" name="links" placeholder="https://linkedin.com/in/username">
+                            <p class="help-text">Share LinkedIn, GitHub, portfolio, or personal website.</p>
+                        </div>
+
+                        <div class="btn-container">
+                            <button type="button" class="btn btn-primary next-btn">Continue <i
+                                    data-lucide="arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Domain Selection -->
+                    <div class="section" data-step="2">
+                        <div class="section-header">
+                            <i data-lucide="compass"></i>
+                            <h2>Section 2: Background & Domain</h2>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">What are you currently studying or working
+                                on?</label>
+                            <textarea name="currentStatus" rows="3" required data-required="true"
+                                placeholder="Describe your current focus and background..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Which domain are you applying for?</label>
+                            <div class="options-grid">
+                                <label class="option-card">
+                                    <input type="radio" name="domain" value="legal" required data-required="true">
+                                    <i data-lucide="gavel"></i>
+                                    <span>Legal / Law</span>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="domain" value="tech">
+                                    <i data-lucide="code-2"></i>
+                                    <span>Technology / Tech</span>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="domain" value="marketing">
+                                    <i data-lucide="megaphone"></i>
+                                    <span>Marketing / Growth</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="btn-container">
+                            <button type="button" class="btn btn-secondary prev-btn"><i data-lucide="arrow-left"></i>
+                                Back</button>
+                            <button type="button" class="btn btn-primary next-btn">Continue <i
+                                    data-lucide="arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 3A: Legal -->
+                    <div class="section" data-step="3" data-domain="legal">
+                        <div class="section-header">
+                            <i data-lucide="balance-scale"></i>
+                            <h2>Section 3A: Legal Specialty</h2>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Legal background / interest</label>
+                            <select name="legalArea" class="other-trigger" required data-required="true">
+                                <option value="">Select an area...</option>
+                                <option value="Corporate / Business Law">Corporate / Business Law</option>
+                                <option value="Contracts & Agreements">Contracts & Agreements</option>
+                                <option value="Compliance / Regulatory">Compliance / Regulatory</option>
+                                <option value="Intellectual Property (IP)">Intellectual Property (IP)</option>
+                                <option value="Data Privacy / Cyber Law">Data Privacy / Cyber Law</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group other-input" style="display: none;">
+                            <label>Specify other area</label>
+                            <input type="text" name="legalAreaOther">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Legal skills</label>
+                            <div class="checkbox-group">
+                                <label class="option-card"><input type="checkbox" name="legalSkills"
+                                        value="Drafting contracts"><span>Drafting contracts</span></label>
+                                <label class="option-card"><input type="checkbox" name="legalSkills"
+                                        value="Legal research"><span>Legal research</span></label>
+                                <label class="option-card"><input type="checkbox" name="legalSkills"
+                                        value="Compliance / policies"><span>Compliance / policies</span></label>
+                                <label class="option-card"><input type="checkbox" name="legalSkills"
+                                        value="Risk analysis"><span>Risk analysis</span></label>
+                                <label class="option-card"><input type="checkbox" name="legalSkills"
+                                        value="Startup law"><span>Startup law</span></label>
+                                <label class="option-card"><input type="checkbox" name="legalSkills"
+                                        value="Other"><span>Other</span></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Relevant legal experience</label>
+                            <textarea name="legalExperience" rows="3" required data-required="true"
+                                placeholder="Describe any relevant experience or projects..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Contribution to startup legal needs</label>
+                            <textarea name="legalContribution" rows="3" required data-required="true"
+                                placeholder="How can you help with our legal framework?"></textarea>
+                        </div>
+
+                        <div class="btn-container">
+                            <button type="button" class="btn btn-secondary prev-btn"><i data-lucide="arrow-left"></i>
+                                Back</button>
+                            <button type="button" class="btn btn-primary next-btn">Continue <i
+                                    data-lucide="arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 3B: Tech -->
+                    <div class="section" data-step="3" data-domain="tech">
+                        <div class="section-header">
+                            <i data-lucide="cpu"></i>
+                            <h2>Section 3B: Technology Stack</h2>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Primary tech area</label>
+                            <select name="techArea" class="other-trigger" required data-required="true">
+                                <option value="">Select an area...</option>
+                                <option value="Frontend Development">Frontend Development</option>
+                                <option value="Backend Development">Backend Development</option>
+                                <option value="Full Stack Development">Full Stack Development</option>
+                                <option value="UI/UX Design">UI/UX Design</option>
+                                <option value="Mobile App Development">Mobile App Development</option>
+                                <option value="AI / Machine Learning">AI / Machine Learning</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group other-input" style="display: none;">
+                            <label>Specify other area</label>
+                            <input type="text" name="techAreaOther">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Technical skills & tools</label>
+                            <div class="checkbox-group">
+                                <label class="option-card"><input type="checkbox" name="techSkills"
+                                        value="HTML / CSS / JS"><span>HTML / CSS / JS</span></label>
+                                <label class="option-card"><input type="checkbox" name="techSkills"
+                                        value="React / Next.js"><span>React / Next.js</span></label>
+                                <label class="option-card"><input type="checkbox" name="techSkills"
+                                        value="Node.js"><span>Node.js</span></label>
+                                <label class="option-card"><input type="checkbox" name="techSkills"
+                                        value="Python"><span>Python</span></label>
+                                <label class="option-card"><input type="checkbox" name="techSkills"
+                                        value="Databases"><span>Databases</span></label>
+                                <label class="option-card"><input type="checkbox" name="techSkills"
+                                        value="AI / ML Tools"><span>AI / ML Tools</span></label>
+                                <label class="option-card"><input type="checkbox" name="techSkills"
+                                        value="Other"><span>Other</span></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Technical project description</label>
+                            <textarea name="techProject" rows="3" required data-required="true"
+                                placeholder="Describe a project you built or contributed to..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Contribution to product building</label>
+                            <textarea name="techContribution" rows="3" required data-required="true"
+                                placeholder="What unique value do you bring to our tech stack?"></textarea>
+                        </div>
+
+                        <div class="btn-container">
+                            <button type="button" class="btn btn-secondary prev-btn"><i data-lucide="arrow-left"></i>
+                                Back</button>
+                            <button type="button" class="btn btn-primary next-btn">Continue <i
+                                    data-lucide="arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 3C: Marketing -->
+                    <div class="section" data-step="3" data-domain="marketing">
+                        <div class="section-header">
+                            <i data-lucide="trending-up"></i>
+                            <h2>Section 3C: Marketing & Growth</h2>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Marketing focus</label>
+                            <select name="marketingArea" class="other-trigger" required data-required="true">
+                                <option value="">Select a focus...</option>
+                                <option value="Digital Marketing">Digital Marketing</option>
+                                <option value="Social Media">Social Media</option>
+                                <option value="Branding / Strategy">Branding / Strategy</option>
+                                <option value="Content Creation">Content Creation</option>
+                                <option value="SEO / Growth">SEO / Growth</option>
+                                <option value="Performance Ads">Performance Ads</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group other-input" style="display: none;">
+                            <label>Specify other focus</label>
+                            <input type="text" name="marketingAreaOther">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Marketing skills</label>
+                            <div class="checkbox-group">
+                                <label class="option-card"><input type="checkbox" name="marketingSkills"
+                                        value="Social media"><span>Social media</span></label>
+                                <label class="option-card"><input type="checkbox" name="marketingSkills"
+                                        value="Content creation"><span>Content creation</span></label>
+                                <label class="option-card"><input type="checkbox" name="marketingSkills"
+                                        value="Paid ads"><span>Paid ads</span></label>
+                                <label class="option-card"><input type="checkbox" name="marketingSkills"
+                                        value="Branding"><span>Branding</span></label>
+                                <label class="option-card"><input type="checkbox" name="marketingSkills"
+                                        value="SEO / Analytics"><span>SEO / Analytics</span></label>
+                                <label class="option-card"><input type="checkbox" name="marketingSkills"
+                                        value="Community"><span>Community</span></label>
+                                <label class="option-card"><input type="checkbox" name="marketingSkills"
+                                        value="Other"><span>Other</span></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Marketing experience/projects</label>
+                            <textarea name="marketingExperience" rows="3" required data-required="true"
+                                placeholder="Describe previous campaigns or growth initiatives..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Contribution to startup growth</label>
+                            <textarea name="marketingContribution" rows="3" required data-required="true"
+                                placeholder="How will you help us scale our user base?"></textarea>
+                        </div>
+
+                        <div class="btn-container">
+                            <button type="button" class="btn btn-secondary prev-btn"><i data-lucide="arrow-left"></i>
+                                Back</button>
+                            <button type="button" class="btn btn-primary next-btn">Continue <i
+                                    data-lucide="arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Reflection -->
+                    <div class="section" data-step="4">
+                        <div class="section-header">
+                            <i data-lucide="award"></i>
+                            <h2>Section 4: Reflection</h2>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Three biggest strengths</label>
+                            <textarea name="strengths" rows="3" required data-required="true"
+                                placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Three expectations from this journey</label>
+                            <textarea name="expectations" rows="3" required data-required="true"
+                                placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea>
+                        </div>
+
+                        <div class="btn-container">
+                            <button type="button" class="btn btn-secondary prev-btn"><i data-lucide="arrow-left"></i>
+                                Back</button>
+                            <button type="submit" class="btn btn-primary">Submit Application <i
+                                    data-lucide="check"></i></button>
+                        </div>
+                    </div>
+                </form>
+
+                <button onclick="window.location.reload()" class="btn btn-secondary"
+                    style="max-width: 240px; margin: 2rem auto 0; display: none;" id="finish-btn">Finish</button>
+            </div>
+
+            <!-- Submission Success Message -->
+            <div id="confirmation" style="display: none;" class="success-card">
+                <div class="success-icon-container">
+                    <i data-lucide="check-circle"></i>
+                </div>
+                <h1>Application Received</h1>
+                <p class="description" style="margin: 0 auto 2rem;">
+                    Thank you for applying. Our team will review your profile and reach out if there is a potential
+                    match.
+                </p>
+                <button onclick="window.location.reload()" class="btn btn-primary"
+                    style="max-width: 240px; margin: 0 auto;">Return to Home</button>
+            </div>
+
+            <!-- Capacity Full Message -->
+            <div id="capacity-full" style="display: none;" class="success-card">
+                <div class="success-icon-container" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                    <i data-lucide="alert-circle"></i>
+                </div>
+                <h1>Capacity Reached</h1>
+                <p class="description" style="margin: 0 auto 2rem;">
+                    Thank you for your interest. We have currently reached our maximum capacity of 100 applications for
+                    this
+                    cohort.
+                </p>
+                <p class="help-text" style="color: var(--text-muted); margin-bottom: 3rem;">
+                    Please check back later or follow our social channels for future openings.
+                </p>
+            </div>
+            <!-- Tracking Portal Section -->
+            <div id="tracking-portal" style="display: none;">
+                <div class="card">
+                    <header>
+                        <h1>Application Tracking Portal</h1>
+                        <p class="description">Enter your unique Application ID to check your recruitment status.</p>
+                    </header>
+
+                    <div class="search-container">
+                        <input type="text" id="track-id-input" placeholder="Enter ID (e.g., OH-A1B2)">
+                        <button class="search-btn" id="track-search-btn">Search</button>
+                    </div>
+
+                    <div id="status-result" class="status-card">
+                        <div id="status-badge-el" class="status-badge">Reviewing</div>
+                        <h2 id="status-title" style="margin-bottom: 1rem;">Under Review</h2>
+                        <p id="status-message" class="text-muted">Your application is currently being evaluated by our
+                            team.</p>
+
+                        <div id="track-details"
+                            style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1.5rem; text-align: left; display: none;">
+                            <div class="detail-item">
+                                <div class="detail-label">Application ID</div>
+                                <div class="detail-value" id="track-display-id">-</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Full Name</div>
+                                <div class="detail-value" id="track-display-name">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="track-error" style="color: #ef4444; text-align: center; margin-top: 1rem; display: none;">
+                        Application ID not found. Please double-check and try again.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <a href="#" id="admin-link">Admin Access</a>
+
+        <div id="admin-login" class="login-overlay">
+            <div class="modal-card">
+                <h3 style="margin-bottom: 1.5rem; font-weight: 600;">Admin Login</h3>
+                <div class="form-group">
+                    <input type="password" id="admin-password" placeholder="System Password">
+                </div>
+                <button id="login-btn" class="btn btn-primary">Access Dashboard</button>
+                <button id="close-login" class="btn btn-secondary"
+                    style="margin-top: 0.75rem; width: 100%;">Cancel</button>
+            </div>
+        </div>
+
+        <div id="admin-panel">
+            <div class="admin-header">
+                <div>
+                    <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Admin Dashboard</h2>
+                    <div style="display: flex; gap: 1.5rem; margin-top: 1rem;">
+                        <button class="tab-btn active" id="pending-tab" data-tab="pending">Pending</button>
+                        <button class="tab-btn" id="accepted-tab" data-tab="accepted">Accepted</button>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                    <button id="export-btn" class="btn btn-primary"
+                        style="padding: 0.75rem 1.25rem; font-size: 0.9rem;"><i data-lucide="download"></i> Export
+                        CSV</button>
+                    <button id="logout-btn" class="btn btn-secondary"
+                        style="padding: 0.75rem 1.25rem; font-size: 0.9rem;"><i data-lucide="log-out"></i>
+                        Logout</button>
+                </div>
+            </div>
+            <div style="overflow-x: auto;">
+                <table id="submissions-table">
+                    <thead>
+                        <tr id="table-header">
+                            <!-- Headers injected here -->
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Data injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Detail View Modal -->
+        <div id="detail-modal-overlay" class="modal-overlay">
+            <div class="detail-modal">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
+                    <h2
+                        style="font-size: 1.5rem; background: linear-gradient(to right, #f8fafc, #94a3b8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                        Applicant Profile</h2>
+                    <i data-lucide="x" style="cursor: pointer; color: var(--text-muted);" id="close-detail-icon"></i>
+                </div>
+                <div id="detail-content">
+                    <!-- Details injected here -->
+                </div>
+                <div id="detail-actions" style="display: flex; gap: 1rem; margin-top: 2.5rem;">
+                    <button id="reject-btn" class="btn btn-secondary"
+                        style="border-color: rgba(239, 68, 68, 0.4); color: #ef4444;"><i data-lucide="trash-2"></i>
+                        Reject &
+                        Delete</button>
+                    <button id="accept-btn" class="btn btn-primary"
+                        style="background: var(--success); color: white; border: none;"><i data-lucide="user-check"></i>
+                        Accept Candidate</button>
+                </div>
+                <button id="close-detail" class="btn btn-secondary" style="margin-top: 1.25rem; width: 100%;">Close
+                    Profile</button>
+            </div>
+        </div>
+
+        <script>
+            // Global Error Handler for User Feedback
+            window.onerror = function (msg, url, line) {
+                alert("System Error: " + msg + "\nAt: " + url + ":" + line);
+                return false;
+            };
+
+            const safeLucide = () => {
+                try {
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                } catch (e) {
+                    console.warn('Lucide icons failed to load or render:', e);
+                }
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                safeLucide();
+
+                const form = document.getElementById('recruitment-form');
+                const sections = document.querySelectorAll('.section');
+                const nextBtns = document.querySelectorAll('.next-btn');
+                const prevBtns = document.querySelectorAll('.prev-btn');
+                const confirmation = document.getElementById('confirmation');
+                const capacityFull = document.getElementById('capacity-full');
+                const formCard = document.getElementById('form-card');
+                const trackingPortal = document.getElementById('tracking-portal');
+                const navApply = document.getElementById('nav-apply');
+                const navTrack = document.getElementById('nav-track');
+
+                const MAX_CAPACITY = 100;
+                let currentStep = 1;
+
+                // Navigation Logic
+                navApply.addEventListener('click', () => {
+                    navApply.classList.add('active');
+                    navTrack.classList.remove('active');
+                    formCard.style.display = 'block';
+                    trackingPortal.style.display = 'none';
+                    if (confirmation.style.display !== 'block' && capacityFull.style.display !== 'block') {
+                        document.querySelector('header').style.display = 'block';
+                    }
+                });
+
+                navTrack.addEventListener('click', () => {
+                    navTrack.classList.add('active');
+                    navApply.classList.remove('active');
+                    formCard.style.display = 'none';
+                    trackingPortal.style.display = 'block';
+                    document.querySelector('header').style.display = 'none';
+                });
+
+                function generateAppID() {
+                    const chars = 'ABCDEF0123456789';
+                    let id = '';
+                    for (let i = 0; i < 4; i++) {
+                        id += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    return `OH-${id}`;
+                }
+
+                function checkCapacity() {
+                    const pending = JSON.parse(localStorage.getItem('recruitment_submissions') || '[]');
+                    const accepted = JSON.parse(localStorage.getItem('accepted_submissions') || '[]');
+                    const total = pending.length + accepted.length;
+
+                    if (total >= MAX_CAPACITY) {
+                        form.style.display = 'none';
+                        document.querySelector('header').style.display = 'none';
+                        capacityFull.style.display = 'block';
+                        return true;
+                    } else {
+                        // Only show form if it wasn't hidden by a successful submission
+                        if (confirmation.style.display !== 'block') {
+                            form.style.display = 'block';
+                            document.querySelector('header').style.display = 'block';
+                        }
+                        capacityFull.style.display = 'none';
+                        return false;
+                    }
+                }
+
+                // Initial check
+                checkCapacity();
+
+                // Option Cards Styling Logic
+                document.querySelectorAll('.option-card').forEach(card => {
+                    const input = card.querySelector('input');
+
+                    input.addEventListener('change', () => {
+                        if (input.type === 'radio') {
+                            document.querySelectorAll(`input[name="${input.name}"]`).forEach(i => {
+                                i.parentElement.classList.remove('selected');
+                            });
+                            card.classList.add('selected');
+                        } else {
+                            card.classList.toggle('selected', input.checked);
+                        }
+                    });
+                });
+
+                // "Other" specificity logic
+                document.querySelectorAll('.other-trigger').forEach(trigger => {
+                    trigger.addEventListener('change', (e) => {
+                        const otherInput = e.target.closest('.section').querySelector('.other-input');
+                        const inputEl = otherInput.querySelector('input');
+                        if (e.target.value === 'Other') {
+                            otherInput.style.display = 'block';
+                            inputEl.setAttribute('data-required', 'true');
+                            inputEl.setAttribute('required', 'true');
+                        } else {
+                            otherInput.style.display = 'none';
+                            inputEl.removeAttribute('data-required');
+                            inputEl.removeAttribute('required');
+                        }
+                    });
+                });
+
+                // Step Navigation Logic
+                nextBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const validation = validateSection(currentStep);
+                        if (validation.valid) {
+                            const selectedDomain = document.querySelector('input[name="domain"]:checked')?.value;
+
+                            if (currentStep === 2) {
+                                currentStep = 3;
+                                showSection(currentStep, selectedDomain);
+                            } else {
+                                currentStep++;
+                                showSection(currentStep, selectedDomain);
+                            }
+                        } else {
+                            alert(`Please fix the following issues:\n- ${validation.errors.join('\n- ')}`);
+                        }
+                    });
+                });
+
+                prevBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        if (currentStep === 3) {
+                            currentStep = 2;
+                        } else {
+                            currentStep--;
+                        }
+                        showSection(currentStep, document.querySelector('input[name="domain"]:checked')?.value);
+                    });
+                });
+
+                function showSection(step, domain = null) {
+                    // Determine which sections should be active
+                    sections.forEach(sec => {
+                        const secStep = parseInt(sec.dataset.step);
+                        const secDomain = sec.dataset.domain;
+                        let isActive = false;
+
+                        if (secStep === step) {
+                            if (step === 3) {
+                                isActive = (secDomain === domain);
+                            } else {
+                                isActive = true;
+                            }
+                        }
+
+                        if (isActive) {
+                            sec.classList.add('active');
+                            sec.style.display = 'block';
+                            // Enable required attributes for elements marked as data-required
+                            sec.querySelectorAll('[data-required="true"]').forEach(el => {
+                                el.setAttribute('required', 'true');
+                            });
+                        } else {
+                            sec.classList.remove('active');
+                            sec.style.display = 'none';
+                            // Clear ALL required attributes in hidden sections to prevent browser validation blocks
+                            sec.querySelectorAll('input, select, textarea').forEach(el => {
+                                if (el.hasAttribute('required')) {
+                                    el.removeAttribute('required');
+                                }
+                            });
+                        }
+                    });
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    safeLucide();
+                }
+
+                function validateSection(step) {
+                    const activeSec = document.querySelector('.section.active');
+                    if (!activeSec) return { valid: true, errors: [] };
+
+                    const inputs = activeSec.querySelectorAll('input[required], textarea[required], select[required]');
+                    let valid = true;
+                    const errors = [];
+
+                    inputs.forEach(input => {
+                        // Refined visibility check for reliable validation
+                        const style = window.getComputedStyle(input);
+                        const isVisible = input.offsetWidth > 0 || input.offsetHeight > 0 || (style.display !== 'none' && style.visibility !== 'hidden');
+
+                        if (isVisible && !input.value.trim()) {
+                            valid = false;
+                            input.style.borderColor = 'rgba(236, 72, 153, 0.4)';
+
+                            // Get labels or descriptive name
+                            let labelText = '';
+                            const label = input.closest('.form-group')?.querySelector('label');
+                            if (label) {
+                                labelText = label.innerText.replace('*', '').trim();
+                            } else {
+                                labelText = input.name || 'required field';
+                            }
+                            errors.push(`${labelText} is mandatory`);
+                        } else {
+                            input.style.borderColor = 'var(--border)';
+                        }
+                    });
+
+                    if (step === 2) {
+                        const domainChecked = document.querySelector('input[name="domain"]:checked');
+                        if (!domainChecked) {
+                            valid = false;
+                            errors.push("Select a domain (Legal, Tech, or Marketing)");
+                            document.querySelector('.options-grid').style.borderColor = 'rgba(236, 72, 153, 0.4)';
+                            document.querySelector('.options-grid').style.borderStyle = 'solid';
+                            document.querySelector('.options-grid').style.borderWidth = '1px';
+                            document.querySelector('.options-grid').style.borderRadius = '16px';
+                        } else {
+                            document.querySelector('.options-grid').style.border = 'none';
+                        }
+                    }
+
+                    if (!valid) {
+                        const firstInvalid = activeSec.querySelector('input:invalid, textarea:invalid, select:invalid');
+                        if (firstInvalid) firstInvalid.focus();
+                    }
+
+                    return { valid, errors };
+                }
+
+                // Form Process & Persistence
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    // Final validation check before submission
+                    const validation = validateSection(currentStep);
+                    if (!validation.valid) {
+                        alert(`Submission blocked:\n- ${validation.errors.join('\n- ')}`);
+                        return;
+                    }
+
+                    // Final submission safety check
+                    if (checkCapacity()) return;
+
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = 'Submitting...';
+
+                    try {
+                        const formData = new FormData(form);
+                        const data = {};
+
+                        formData.forEach((value, key) => {
+                            if (data[key]) {
+                                if (!Array.isArray(data[key])) {
+                                    data[key] = [data[key]];
+                                }
+                                data[key].push(value);
+                            } else {
+                                data[key] = value;
+                            }
+                        });
+
+                        data.id = generateAppID();
+                        data.timestamp = new Date().toLocaleString();
+                        data.status = 'pending';
+
+                        const existing = JSON.parse(localStorage.getItem('recruitment_submissions') || '[]');
+                        existing.push(data);
+                        localStorage.setItem('recruitment_submissions', JSON.stringify(existing));
+
+                        form.style.display = 'none';
+                        confirmation.querySelector('h1').innerText = 'Application Received';
+                        confirmation.querySelector('.description').innerHTML = `Thank you for applying. Your Application ID is: <div class="app-id-display">${data.id}</div><br>Please save this ID to track your application.`;
+                        confirmation.style.display = 'block';
+                        document.querySelector('header').style.display = 'none';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        safeLucide();
+                    } catch (err) {
+                        console.error('Submission error:', err);
+                        alert('An error occurred while submitting your application. Please try again.');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = 'Submit Application <i data-lucide="check"></i>';
+                        safeLucide();
+                    }
+                });
+
+                // Administrative Dashboard Logic
+                const adminLink = document.getElementById('admin-link');
+                const adminLogin = document.getElementById('admin-login');
+                const adminPanel = document.getElementById('admin-panel');
+                const loginBtn = document.getElementById('login-btn');
+                const passwordInput = document.getElementById('admin-password');
+                const tableHeader = document.getElementById('table-header');
+                const tableBody = document.getElementById('table-body');
+
+                let currentTab = 'pending';
+                let activeDetailIndex = null;
+
+                adminLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    adminLogin.style.display = 'flex';
+                });
+
+                document.getElementById('close-login').addEventListener('click', () => {
+                    adminLogin.style.display = 'none';
+                });
+
+                loginBtn.addEventListener('click', () => {
+                    if (passwordInput.value === 'ansh123') {
+                        adminLogin.style.display = 'none';
+                        adminPanel.style.display = 'block';
+                        loadSubmissions();
+                    } else {
+                        alert('Authentication failed.');
+                    }
+                });
+
+                // Tab Switching
+                const tabs = document.querySelectorAll('.tab-btn');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        tabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        currentTab = tab.dataset.tab;
+                        loadSubmissions();
+                    });
+                });
+
+                function loadSubmissions() {
+                    const storageKey = currentTab === 'pending' ? 'recruitment_submissions' : 'accepted_submissions';
+                    const submissions = JSON.parse(localStorage.getItem(storageKey) || '[]');
+
+                    if (submissions.length === 0) {
+                        tableBody.innerHTML = `<tr><td colspan="100%" style="text-align: center; color: var(--text-muted); padding: 3rem;">No ${currentTab} applications found.</td></tr>`;
+                        return;
+                    }
+
+                    const headers = ['Submitted at', 'Full Name', 'Email', 'Domain'];
+                    const dataKeys = ['timestamp', 'fullName', 'email', 'domain'];
+
+                    tableHeader.innerHTML = headers.map(h => `<th>${h}</th>`).join('') + '<th></th>';
+                    tableBody.innerHTML = submissions.map((s, idx) => {
+                        return `<tr>
+                         ${dataKeys.map(k => `<td>${Array.isArray(s[k]) ? s[k].join(', ') : (s[k] || '-')}</td>`).join('')}
+                        <td style="text-align: right;"><button class="view-btn" onclick="showDetail(${idx})"><i data-lucide="eye"></i> Details</button></td>
+                    </tr>`;
+                    }).join('');
+                    safeLucide();
+                }
+
+                // Individual Detail View Logic
+                const detailOverlay = document.getElementById('detail-modal-overlay');
+                const detailContent = document.getElementById('detail-content');
+                const detailActions = document.getElementById('detail-actions');
+
+                window.showDetail = (index) => {
+                    const storageKey = currentTab === 'pending' ? 'recruitment_submissions' : 'accepted_submissions';
+                    const submissions = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                    const entry = submissions[index];
+                    if (!entry) return;
+
+                    activeDetailIndex = index;
+                    // Only show Accept/Reject if in pending tab
+                    detailActions.style.display = currentTab === 'pending' ? 'flex' : 'none';
+
+                    let html = '';
+                    const labels = {
+                        fullName: 'Full Name',
+                        email: 'Email',
+                        phone: 'Phone Number',
+                        links: 'Portfolio / Links',
+                        currentStatus: 'Current Status',
+                        domain: 'Target Domain',
+                        legalArea: 'Legal Specialty',
+                        legalAreaOther: 'Specific Legal Area',
+                        legalSkills: 'Legal Expertise',
+                        legalExperience: 'Professional Experience',
+                        legalContribution: 'Planned Contribution',
+                        techArea: 'Primary Tech Stack',
+                        techAreaOther: 'Specific Tech Stack',
+                        techSkills: 'Technical Tools',
+                        techProject: 'Key Technical Project',
+                        techContribution: 'Product Impact',
+                        marketingArea: 'Growth Strategy Focus',
+                        marketingAreaOther: 'Specific Marketing Focus',
+                        marketingSkills: 'Growth Methodology',
+                        marketingExperience: 'Strategic Experience',
+                        marketingContribution: 'Acquisition Strategy',
+                        strengths: 'Core Strengths',
+                        expectations: 'Aspirations',
+                        timestamp: 'Submission Date'
+                    };
+
+                    Object.keys(entry).forEach(key => {
+                        const value = entry[key];
+                        if (value && value !== '' && (!Array.isArray(value) || value.length > 0)) {
+                            const label = labels[key] || key;
+                            const displayValue = Array.isArray(value) ? value.join(', ') : value;
+                            html += `
+                            <div class="detail-item">
+                                <div class="detail-label">${label}</div>
+                                <div class="detail-value">${displayValue}</div>
+                            </div>
+                        `;
+                        }
+                    });
+
+                    detailContent.innerHTML = html;
+                    detailOverlay.style.display = 'flex';
+                    safeLucide();
+                };
+
+                // Entry Management Logic
+                document.getElementById('accept-btn').addEventListener('click', () => {
+                    if (activeDetailIndex === null) return;
+
+                    const pending = JSON.parse(localStorage.getItem('recruitment_submissions') || '[]');
+                    const accepted = JSON.parse(localStorage.getItem('accepted_submissions') || '[]');
+
+                    const entry = pending.splice(activeDetailIndex, 1)[0];
+                    entry.status = 'accepted';
+                    accepted.push(entry);
+
+                    localStorage.setItem('recruitment_submissions', JSON.stringify(pending));
+                    localStorage.setItem('accepted_submissions', JSON.stringify(accepted));
+
+                    closeModal();
+                    loadSubmissions();
+                });
+
+                document.getElementById('reject-btn').addEventListener('click', () => {
+                    if (activeDetailIndex === null) return;
+                    if (!confirm('Are you sure you want to reject this application? It will be moved to rejection history.')) return;
+
+                    const pending = JSON.parse(localStorage.getItem('recruitment_submissions') || '[]');
+                    const rejected = JSON.parse(localStorage.getItem('rejected_submissions') || '[]');
+
+                    const entry = pending.splice(activeDetailIndex, 1)[0];
+                    entry.status = 'rejected';
+                    rejected.push(entry);
+
+                    localStorage.setItem('recruitment_submissions', JSON.stringify(pending));
+                    localStorage.setItem('rejected_submissions', JSON.stringify(rejected));
+
+                    closeModal();
+                    loadSubmissions();
+                    checkCapacity(); // Re-enable form if slot cleared
+                });
+
+                const closeModal = () => {
+                    detailOverlay.style.display = 'none';
+                    activeDetailIndex = null;
+                };
+                document.getElementById('close-detail').addEventListener('click', closeModal);
+                document.getElementById('close-detail-icon').addEventListener('click', closeModal);
+                detailOverlay.addEventListener('click', (e) => { if (e.target === detailOverlay) closeModal(); });
+
+                document.getElementById('logout-btn').addEventListener('click', () => {
+                    adminPanel.style.display = 'none';
+                    passwordInput.value = '';
+                });
+
+                document.getElementById('export-btn').addEventListener('click', () => {
+                    const storageKey = currentTab === 'pending' ? 'recruitment_submissions' : 'accepted_submissions';
+                    const submissions = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                    if (submissions.length === 0) return;
+
+                    const keys = new Set();
+                    submissions.forEach(s => Object.keys(s).forEach(k => keys.add(k)));
+                    const headers = Array.from(keys);
+
+                    const csvContent = [
+                        headers.join(','),
+                        ...submissions.map(s => headers.map(h => {
+                            const val = Array.isArray(s[h]) ? s[h].join('; ') : (s[h] || '');
+                            return `"${val.toString().replace(/"/g, '""')}"`;
+                        }).join(','))
+                    ].join('\n');
+
+                    const blob = new Blob([csvContent], { type: 'text/csv' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${currentTab}_submissions_${new Date().toISOString().split('T')[0]}.csv`;
+                    a.click();
+                });
+
+                // Tracking Logic Handlers
+                const trackInput = document.getElementById('track-id-input');
+                const trackBtn = document.getElementById('track-search-btn');
+                const statusResult = document.getElementById('status-result');
+                const statusBadge = document.getElementById('status-badge-el');
+                const statusTitle = document.getElementById('status-title');
+                const statusMsg = document.getElementById('status-message');
+                const trackError = document.getElementById('track-error');
+                const trackDetails = document.getElementById('track-details');
+                const trackDispId = document.getElementById('track-display-id');
+                const trackDispName = document.getElementById('track-display-name');
+
+                trackBtn.addEventListener('click', () => {
+                    const searchId = trackInput.value.trim().toUpperCase();
+                    if (!searchId) return;
+
+                    const pending = JSON.parse(localStorage.getItem('recruitment_submissions') || '[]');
+                    const accepted = JSON.parse(localStorage.getItem('accepted_submissions') || '[]');
+                    const rejected = JSON.parse(localStorage.getItem('rejected_submissions') || '[]');
+
+                    const allSubmissions = [...pending, ...accepted, ...rejected];
+                    const app = allSubmissions.find(s => s.id === searchId);
+
+                    trackError.style.display = 'none';
+                    statusResult.style.display = 'none';
+
+                    if (app) {
+                        statusResult.style.display = 'block';
+                        trackDetails.style.display = 'block';
+                        trackDispId.innerText = app.id;
+                        trackDispName.innerText = app.fullName;
+
+                        statusBadge.className = 'status-badge';
+                        if (app.status === 'pending') {
+                            statusBadge.classList.add('status-pending');
+                            statusBadge.innerText = 'Reviewing';
+                            statusTitle.innerText = 'Application Under Review';
+                            statusMsg.innerText = 'Your application is currently being evaluated by our team. Please check back later.';
+                        } else if (app.status === 'accepted') {
+                            statusBadge.classList.add('status-accepted');
+                            statusBadge.innerText = 'Accepted';
+                            statusTitle.innerText = 'Congratulations!';
+                            statusMsg.innerText = 'Your application has been accepted! Our onboarding team will reach out to you within 48 hours.';
+                        } else if (app.status === 'rejected') {
+                            statusBadge.classList.add('status-rejected');
+                            statusBadge.innerText = 'Rejected';
+                            statusTitle.innerText = 'Update on your Application';
+                            statusMsg.innerText = 'Thank you for your interest. At this time, we have decided to move forward with other candidates.';
+                        }
+                        safeLucide();
+                    } else {
+                        trackError.style.display = 'block';
+                    }
+                });
+
+                trackInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') trackBtn.click();
+                });
+                // Ensure Section 1 is properly initialized
+                showSection(1);
+            });
+        </script>
+</body>
+
+</html>
