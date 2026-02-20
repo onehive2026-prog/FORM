@@ -1424,11 +1424,20 @@
                         return;
                     }
 
+                    // Email Format Validation
+                    const emailInput = form.querySelector('input[name="email"]');
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(emailInput.value)) {
+                        alert("Please enter a valid email address.");
+                        emailInput.focus();
+                        return;
+                    }
+
                     if (await checkCapacity()) return;
 
                     const submitBtn = form.querySelector('button[type="submit"]');
                     submitBtn.disabled = true;
-                    submitBtn.innerHTML = 'Submitting...';
+                    submitBtn.innerHTML = '<i class="lucide-loader-2 animate-spin"></i> Submitting...';
 
                     try {
                         const formData = new FormData(form);
@@ -1449,6 +1458,7 @@
                                 id: appID,
                                 full_name: formDataObj.fullName,
                                 email: formDataObj.email,
+                                phone: formDataObj.phone,
                                 domain: formDataObj.domain,
                                 status: 'pending',
                                 form_data: formDataObj
@@ -1458,14 +1468,15 @@
 
                         form.style.display = 'none';
                         confirmation.querySelector('h1').innerText = 'Application Received';
-                        confirmation.querySelector('.description').innerHTML = `Thank you for applying. Your Application ID is: <div class="app-id-display">${appID}</div><br>Please save this ID to track your application.`;
+                        confirmation.querySelector('.description').innerHTML = `Thank you for applying. Your unique Application ID is: <div class="app-id-display">${appID}</div><br>Please save this ID to track your recruitment status.`;
                         confirmation.style.display = 'block';
                         document.querySelector('header').style.display = 'none';
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                         safeLucide();
                     } catch (err) {
                         console.error('Submission error:', err);
-                        alert('An error occurred while submitting. Please try again or check your connection.');
+                        const errMsg = err.message || 'Connection failed. Please check your network and try again.';
+                        alert(`Submission Failed: ${errMsg}`);
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = 'Submit Application <i data-lucide="check"></i>';
                         safeLucide();
@@ -1691,7 +1702,7 @@
 
                         if (error) throw error;
                         if (!submissions || submissions.length === 0) {
-                            alert('No data to export.');
+                            alert(`No ${statusFilter} applications found for export.`);
                             return;
                         }
 
@@ -1703,33 +1714,52 @@
                                 created_at: s.created_at,
                                 full_name: s.full_name,
                                 email: s.email,
+                                phone: s.phone,
                                 domain: s.domain
                             };
-                            return { ...base, ...(s.form_data || {}) };
+
+                            const extra = s.form_data || {};
+                            // Ensure all keys from form_data are included but don't overwrite base keys
+                            return { ...extra, ...base };
                         });
 
-                        const keys = new Set();
-                        flattenedData.forEach(s => Object.keys(s).forEach(k => keys.add(k)));
-                        const headers = Array.from(keys);
+                        // Get all unique keys for headers
+                        const keysSet = new Set();
+                        flattenedData.forEach(row => Object.keys(row).forEach(k => keysSet.add(k)));
 
-                        const csvContent = [
-                            headers.join(','),
-                            ...flattenedData.map(s => headers.map(h => {
-                                const val = Array.isArray(s[h]) ? s[h].join('; ') : (s[h] || '');
-                                return `"${val.toString().replace(/"/g, '""')}"`;
+                        // Reorder keys to put core fields first for better CSV readability
+                        const coreOrder = ['id', 'status', 'created_at', 'full_name', 'email', 'phone', 'domain'];
+                        const otherKeys = Array.from(keysSet).filter(k => !coreOrder.includes(k));
+                        const headers = [...coreOrder, ...otherKeys];
+
+                        const csvRows = [
+                            headers.join(','), // Header row
+                            ...flattenedData.map(row => headers.map(header => {
+                                let val = row[header];
+                                if (val === null || val === undefined) val = '';
+
+                                // Format arrays for CSV readability
+                                if (Array.isArray(val)) val = val.join('; ');
+
+                                // Escape values for CSV (quotes and commas)
+                                const stringVal = val.toString();
+                                if (stringVal.includes(',') || stringVal.includes('"') || stringVal.includes('\n')) {
+                                    return `"${stringVal.replace(/"/g, '""')}"`;
+                                }
+                                return stringVal;
                             }).join(','))
-                        ].join('\n');
+                        ];
 
-                        const blob = new Blob([csvContent], { type: 'text/csv' });
+                        const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
                         const url = window.URL.createObjectURL(blob);
                         const a = document.createElement('a');
                         a.href = url;
-                        a.download = `${currentTab}_submissions_${new Date().toISOString().split('T')[0]}.csv`;
+                        a.download = `${currentTab}_applications_${new Date().toISOString().split('T')[0]}.csv`;
                         a.click();
                         window.URL.revokeObjectURL(url);
                     } catch (err) {
                         console.error('Export error:', err);
-                        alert('Error during export.');
+                        alert(`Export failed: ${err.message}`);
                     }
                 });
 
