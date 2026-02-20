@@ -1162,7 +1162,13 @@
             </div>
         </div>
 
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script>
+            // Supabase Configuration
+            const SUPABASE_URL = 'https://fbtkcdauwvfqbbgqmdku.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZidGtjZGF1d3ZmcWJiZ3FtZGt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE0ODgxMzcsImV4cCI6MjA4NzA2NDEzN30.zWqPhSQtU_hx6arJzijOHUqn81hpo4W8H9SKVbgJHsU';
+            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
             // Global Error Handler for User Feedback
             window.onerror = function (msg, url, line) {
                 alert("System Error: " + msg + "\nAt: " + url + ":" + line);
@@ -1222,23 +1228,30 @@
                     return `OH-${id}`;
                 }
 
-                function checkCapacity() {
-                    const pending = JSON.parse(localStorage.getItem('recruitment_submissions') || '[]');
-                    const accepted = JSON.parse(localStorage.getItem('accepted_submissions') || '[]');
-                    const total = pending.length + accepted.length;
+                async function checkCapacity() {
+                    try {
+                        const { count, error } = await supabaseClient
+                            .from('applications')
+                            .select('*', { count: 'exact', head: true })
+                            .in('status', ['pending', 'accepted']);
 
-                    if (total >= MAX_CAPACITY) {
-                        form.style.display = 'none';
-                        document.querySelector('header').style.display = 'none';
-                        capacityFull.style.display = 'block';
-                        return true;
-                    } else {
-                        // Only show form if it wasn't hidden by a successful submission
-                        if (confirmation.style.display !== 'block') {
-                            form.style.display = 'block';
-                            document.querySelector('header').style.display = 'block';
+                        if (error) throw error;
+
+                        if (count >= MAX_CAPACITY) {
+                            form.style.display = 'none';
+                            document.querySelector('header').style.display = 'none';
+                            capacityFull.style.display = 'block';
+                            return true;
+                        } else {
+                            if (confirmation.style.display !== 'block') {
+                                form.style.display = 'block';
+                                document.querySelector('header').style.display = 'block';
+                            }
+                            capacityFull.style.display = 'none';
+                            return false;
                         }
-                        capacityFull.style.display = 'none';
+                    } catch (err) {
+                        console.error('Capacity check error:', err);
                         return false;
                     }
                 }
@@ -1402,18 +1415,16 @@
                 }
 
                 // Form Process & Persistence
-                form.addEventListener('submit', (e) => {
+                form.addEventListener('submit', async (e) => {
                     e.preventDefault();
 
-                    // Final validation check before submission
                     const validation = validateSection(currentStep);
                     if (!validation.valid) {
                         alert(`Submission blocked:\n- ${validation.errors.join('\n- ')}`);
                         return;
                     }
 
-                    // Final submission safety check
-                    if (checkCapacity()) return;
+                    if (await checkCapacity()) return;
 
                     const submitBtn = form.querySelector('button[type="submit"]');
                     submitBtn.disabled = true;
@@ -1421,37 +1432,40 @@
 
                     try {
                         const formData = new FormData(form);
-                        const data = {};
-
+                        const formDataObj = {};
                         formData.forEach((value, key) => {
-                            if (data[key]) {
-                                if (!Array.isArray(data[key])) {
-                                    data[key] = [data[key]];
-                                }
-                                data[key].push(value);
+                            if (formDataObj[key]) {
+                                if (!Array.isArray(formDataObj[key])) formDataObj[key] = [formDataObj[key]];
+                                formDataObj[key].push(value);
                             } else {
-                                data[key] = value;
+                                formDataObj[key] = value;
                             }
                         });
 
-                        data.id = generateAppID();
-                        data.timestamp = new Date().toLocaleString();
-                        data.status = 'pending';
+                        const appID = generateAppID();
+                        const { error } = await supabaseClient
+                            .from('applications')
+                            .insert([{
+                                id: appID,
+                                full_name: formDataObj.fullName,
+                                email: formDataObj.email,
+                                domain: formDataObj.domain,
+                                status: 'pending',
+                                form_data: formDataObj
+                            }]);
 
-                        const existing = JSON.parse(localStorage.getItem('recruitment_submissions') || '[]');
-                        existing.push(data);
-                        localStorage.setItem('recruitment_submissions', JSON.stringify(existing));
+                        if (error) throw error;
 
                         form.style.display = 'none';
                         confirmation.querySelector('h1').innerText = 'Application Received';
-                        confirmation.querySelector('.description').innerHTML = `Thank you for applying. Your Application ID is: <div class="app-id-display">${data.id}</div><br>Please save this ID to track your application.`;
+                        confirmation.querySelector('.description').innerHTML = `Thank you for applying. Your Application ID is: <div class="app-id-display">${appID}</div><br>Please save this ID to track your application.`;
                         confirmation.style.display = 'block';
                         document.querySelector('header').style.display = 'none';
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                         safeLucide();
                     } catch (err) {
                         console.error('Submission error:', err);
-                        alert('An error occurred while submitting your application. Please try again.');
+                        alert('An error occurred while submitting. Please try again or check your connection.');
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = 'Submit Application <i data-lucide="check"></i>';
                         safeLucide();
@@ -1500,26 +1514,44 @@
                     });
                 });
 
-                function loadSubmissions() {
-                    const storageKey = currentTab === 'pending' ? 'recruitment_submissions' : 'accepted_submissions';
-                    const submissions = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                async function loadSubmissions() {
+                    try {
+                        const statusFilter = currentTab === 'pending' ? 'pending' : 'accepted';
+                        const { data: submissions, error } = await supabaseClient
+                            .from('applications')
+                            .select('*')
+                            .eq('status', statusFilter)
+                            .order('created_at', { ascending: false });
 
-                    if (submissions.length === 0) {
-                        tableBody.innerHTML = `<tr><td colspan="100%" style="text-align: center; color: var(--text-muted); padding: 3rem;">No ${currentTab} applications found.</td></tr>`;
-                        return;
+                        if (error) throw error;
+
+                        if (!submissions || submissions.length === 0) {
+                            tableBody.innerHTML = `<tr><td colspan="100%" style="text-align: center; color: var(--text-muted); padding: 3rem;">No ${currentTab} applications found.</td></tr>`;
+                            return;
+                        }
+
+                        // Store current submissions globally for detail view
+                        window.currentSubmissions = submissions;
+
+                        const headers = ['Submitted at', 'Full Name', 'Email', 'Domain'];
+                        const dataKeys = ['created_at', 'full_name', 'email', 'domain'];
+
+                        tableHeader.innerHTML = headers.map(h => `<th>${h}</th>`).join('') + '<th></th>';
+                        tableBody.innerHTML = submissions.map((s, idx) => {
+                            const dateStr = s.created_at ? new Date(s.created_at).toLocaleString() : '-';
+                            return `<tr>
+                                 <td>${dateStr}</td>
+                                 <td>${s.full_name || '-'}</td>
+                                 <td>${s.email || '-'}</td>
+                                 <td>${s.domain || '-'}</td>
+                                <td style="text-align: right;"><button class="view-btn" onclick="showDetail(${idx})"><i data-lucide="eye"></i> Details</button></td>
+                            </tr>`;
+                        }).join('');
+                        safeLucide();
+                    } catch (err) {
+                        console.error('Load error:', err);
+                        tableBody.innerHTML = `<tr><td colspan="100%" style="text-align: center; color: #ef4444; padding: 3rem;">Error loading data. Please check connection.</td></tr>`;
                     }
-
-                    const headers = ['Submitted at', 'Full Name', 'Email', 'Domain'];
-                    const dataKeys = ['timestamp', 'fullName', 'email', 'domain'];
-
-                    tableHeader.innerHTML = headers.map(h => `<th>${h}</th>`).join('') + '<th></th>';
-                    tableBody.innerHTML = submissions.map((s, idx) => {
-                        return `<tr>
-                         ${dataKeys.map(k => `<td>${Array.isArray(s[k]) ? s[k].join(', ') : (s[k] || '-')}</td>`).join('')}
-                        <td style="text-align: right;"><button class="view-btn" onclick="showDetail(${idx})"><i data-lucide="eye"></i> Details</button></td>
-                    </tr>`;
-                    }).join('');
-                    safeLucide();
                 }
 
                 // Individual Detail View Logic
@@ -1528,16 +1560,14 @@
                 const detailActions = document.getElementById('detail-actions');
 
                 window.showDetail = (index) => {
-                    const storageKey = currentTab === 'pending' ? 'recruitment_submissions' : 'accepted_submissions';
-                    const submissions = JSON.parse(localStorage.getItem(storageKey) || '[]');
-                    const entry = submissions[index];
+                    const entry = window.currentSubmissions?.[index];
                     if (!entry) return;
 
                     activeDetailIndex = index;
-                    // Only show Accept/Reject if in pending tab
                     detailActions.style.display = currentTab === 'pending' ? 'flex' : 'none';
 
                     let html = '';
+                    const data = entry.form_data || {};
                     const labels = {
                         fullName: 'Full Name',
                         email: 'Email',
@@ -1561,21 +1591,28 @@
                         marketingExperience: 'Strategic Experience',
                         marketingContribution: 'Acquisition Strategy',
                         strengths: 'Core Strengths',
-                        expectations: 'Aspirations',
-                        timestamp: 'Submission Date'
+                        expectations: 'Aspirations'
                     };
 
-                    Object.keys(entry).forEach(key => {
-                        const value = entry[key];
+                    // Add ID first
+                    html += `
+                        <div class="detail-item">
+                            <div class="detail-label">Application ID</div>
+                            <div class="detail-value" style="font-family: monospace; color: var(--accent);">${entry.id}</div>
+                        </div>
+                    `;
+
+                    Object.keys(data).forEach(key => {
+                        const value = data[key];
                         if (value && value !== '' && (!Array.isArray(value) || value.length > 0)) {
                             const label = labels[key] || key;
                             const displayValue = Array.isArray(value) ? value.join(', ') : value;
                             html += `
-                            <div class="detail-item">
-                                <div class="detail-label">${label}</div>
-                                <div class="detail-value">${displayValue}</div>
-                            </div>
-                        `;
+                                <div class="detail-item">
+                                    <div class="detail-label">${label}</div>
+                                    <div class="detail-value">${displayValue}</div>
+                                </div>
+                            `;
                         }
                     });
 
@@ -1585,40 +1622,49 @@
                 };
 
                 // Entry Management Logic
-                document.getElementById('accept-btn').addEventListener('click', () => {
+                document.getElementById('accept-btn').addEventListener('click', async () => {
                     if (activeDetailIndex === null) return;
+                    const entry = window.currentSubmissions?.[activeDetailIndex];
+                    if (!entry) return;
 
-                    const pending = JSON.parse(localStorage.getItem('recruitment_submissions') || '[]');
-                    const accepted = JSON.parse(localStorage.getItem('accepted_submissions') || '[]');
+                    try {
+                        const { error } = await supabaseClient
+                            .from('applications')
+                            .update({ status: 'accepted' })
+                            .eq('id', entry.id);
 
-                    const entry = pending.splice(activeDetailIndex, 1)[0];
-                    entry.status = 'accepted';
-                    accepted.push(entry);
+                        if (error) throw error;
 
-                    localStorage.setItem('recruitment_submissions', JSON.stringify(pending));
-                    localStorage.setItem('accepted_submissions', JSON.stringify(accepted));
-
-                    closeModal();
-                    loadSubmissions();
+                        closeModal();
+                        loadSubmissions();
+                    } catch (err) {
+                        console.error('Accept error:', err);
+                        alert('Could not update application status.');
+                    }
                 });
 
-                document.getElementById('reject-btn').addEventListener('click', () => {
+                document.getElementById('reject-btn').addEventListener('click', async () => {
                     if (activeDetailIndex === null) return;
-                    if (!confirm('Are you sure you want to reject this application? It will be moved to rejection history.')) return;
+                    const entry = window.currentSubmissions?.[activeDetailIndex];
+                    if (!entry) return;
 
-                    const pending = JSON.parse(localStorage.getItem('recruitment_submissions') || '[]');
-                    const rejected = JSON.parse(localStorage.getItem('rejected_submissions') || '[]');
+                    if (!confirm('Are you sure you want to reject this application?')) return;
 
-                    const entry = pending.splice(activeDetailIndex, 1)[0];
-                    entry.status = 'rejected';
-                    rejected.push(entry);
+                    try {
+                        const { error } = await supabaseClient
+                            .from('applications')
+                            .update({ status: 'rejected' })
+                            .eq('id', entry.id);
 
-                    localStorage.setItem('recruitment_submissions', JSON.stringify(pending));
-                    localStorage.setItem('rejected_submissions', JSON.stringify(rejected));
+                        if (error) throw error;
 
-                    closeModal();
-                    loadSubmissions();
-                    checkCapacity(); // Re-enable form if slot cleared
+                        closeModal();
+                        loadSubmissions();
+                        await checkCapacity();
+                    } catch (err) {
+                        console.error('Reject error:', err);
+                        alert('Could not update application status.');
+                    }
                 });
 
                 const closeModal = () => {
@@ -1634,29 +1680,57 @@
                     passwordInput.value = '';
                 });
 
-                document.getElementById('export-btn').addEventListener('click', () => {
-                    const storageKey = currentTab === 'pending' ? 'recruitment_submissions' : 'accepted_submissions';
-                    const submissions = JSON.parse(localStorage.getItem(storageKey) || '[]');
-                    if (submissions.length === 0) return;
+                document.getElementById('export-btn').addEventListener('click', async () => {
+                    const statusFilter = currentTab === 'pending' ? 'pending' : 'accepted';
 
-                    const keys = new Set();
-                    submissions.forEach(s => Object.keys(s).forEach(k => keys.add(k)));
-                    const headers = Array.from(keys);
+                    try {
+                        const { data: submissions, error } = await supabaseClient
+                            .from('applications')
+                            .select('*')
+                            .eq('status', statusFilter);
 
-                    const csvContent = [
-                        headers.join(','),
-                        ...submissions.map(s => headers.map(h => {
-                            const val = Array.isArray(s[h]) ? s[h].join('; ') : (s[h] || '');
-                            return `"${val.toString().replace(/"/g, '""')}"`;
-                        }).join(','))
-                    ].join('\n');
+                        if (error) throw error;
+                        if (!submissions || submissions.length === 0) {
+                            alert('No data to export.');
+                            return;
+                        }
 
-                    const blob = new Blob([csvContent], { type: 'text/csv' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `${currentTab}_submissions_${new Date().toISOString().split('T')[0]}.csv`;
-                    a.click();
+                        // Flatten form_data for CSV
+                        const flattenedData = submissions.map(s => {
+                            const base = {
+                                id: s.id,
+                                status: s.status,
+                                created_at: s.created_at,
+                                full_name: s.full_name,
+                                email: s.email,
+                                domain: s.domain
+                            };
+                            return { ...base, ...(s.form_data || {}) };
+                        });
+
+                        const keys = new Set();
+                        flattenedData.forEach(s => Object.keys(s).forEach(k => keys.add(k)));
+                        const headers = Array.from(keys);
+
+                        const csvContent = [
+                            headers.join(','),
+                            ...flattenedData.map(s => headers.map(h => {
+                                const val = Array.isArray(s[h]) ? s[h].join('; ') : (s[h] || '');
+                                return `"${val.toString().replace(/"/g, '""')}"`;
+                            }).join(','))
+                        ].join('\n');
+
+                        const blob = new Blob([csvContent], { type: 'text/csv' });
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `${currentTab}_submissions_${new Date().toISOString().split('T')[0]}.csv`;
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    } catch (err) {
+                        console.error('Export error:', err);
+                        alert('Error during export.');
+                    }
                 });
 
                 // Tracking Logic Handlers
@@ -1671,46 +1745,57 @@
                 const trackDispId = document.getElementById('track-display-id');
                 const trackDispName = document.getElementById('track-display-name');
 
-                trackBtn.addEventListener('click', () => {
+                trackBtn.addEventListener('click', async () => {
                     const searchId = trackInput.value.trim().toUpperCase();
                     if (!searchId) return;
 
-                    const pending = JSON.parse(localStorage.getItem('recruitment_submissions') || '[]');
-                    const accepted = JSON.parse(localStorage.getItem('accepted_submissions') || '[]');
-                    const rejected = JSON.parse(localStorage.getItem('rejected_submissions') || '[]');
+                    trackBtn.innerText = 'Searching...';
+                    trackBtn.disabled = true;
 
-                    const allSubmissions = [...pending, ...accepted, ...rejected];
-                    const app = allSubmissions.find(s => s.id === searchId);
+                    try {
+                        const { data: app, error } = await supabaseClient
+                            .from('applications')
+                            .select('*')
+                            .eq('id', searchId)
+                            .single();
 
-                    trackError.style.display = 'none';
-                    statusResult.style.display = 'none';
+                        trackError.style.display = 'none';
+                        statusResult.style.display = 'none';
 
-                    if (app) {
-                        statusResult.style.display = 'block';
-                        trackDetails.style.display = 'block';
-                        trackDispId.innerText = app.id;
-                        trackDispName.innerText = app.fullName;
+                        if (app) {
+                            statusResult.style.display = 'block';
+                            trackDetails.style.display = 'block';
+                            trackDispId.innerText = app.id;
+                            trackDispName.innerText = app.full_name;
 
-                        statusBadge.className = 'status-badge';
-                        if (app.status === 'pending') {
-                            statusBadge.classList.add('status-pending');
-                            statusBadge.innerText = 'Reviewing';
-                            statusTitle.innerText = 'Application Under Review';
-                            statusMsg.innerText = 'Your application is currently being evaluated by our team. Please check back later.';
-                        } else if (app.status === 'accepted') {
-                            statusBadge.classList.add('status-accepted');
-                            statusBadge.innerText = 'Accepted';
-                            statusTitle.innerText = 'Congratulations!';
-                            statusMsg.innerText = 'Your application has been accepted! Our onboarding team will reach out to you within 48 hours.';
-                        } else if (app.status === 'rejected') {
-                            statusBadge.classList.add('status-rejected');
-                            statusBadge.innerText = 'Rejected';
-                            statusTitle.innerText = 'Update on your Application';
-                            statusMsg.innerText = 'Thank you for your interest. At this time, we have decided to move forward with other candidates.';
+                            statusBadge.className = 'status-badge';
+                            if (app.status === 'pending') {
+                                statusBadge.classList.add('status-pending');
+                                statusBadge.innerText = 'Reviewing';
+                                statusTitle.innerText = 'Application Under Review';
+                                statusMsg.innerText = 'Your application is currently being evaluated by our team. Please check back later.';
+                            } else if (app.status === 'accepted') {
+                                statusBadge.classList.add('status-accepted');
+                                statusBadge.innerText = 'Accepted';
+                                statusTitle.innerText = 'Congratulations!';
+                                statusMsg.innerText = 'Your application has been accepted! Our onboarding team will reach out to you within 48 hours.';
+                            } else if (app.status === 'rejected') {
+                                statusBadge.classList.add('status-rejected');
+                                statusBadge.innerText = 'Rejected';
+                                statusTitle.innerText = 'Update on your Application';
+                                statusMsg.innerText = 'Thank you for your interest. At this time, we have decided to move forward with other candidates.';
+                            }
+                            safeLucide();
+                        } else {
+                            trackError.style.display = 'block';
                         }
-                        safeLucide();
-                    } else {
+                    } catch (err) {
+                        console.error('Track error:', err);
+                        trackError.innerText = 'Connection error. Please try again.';
                         trackError.style.display = 'block';
+                    } finally {
+                        trackBtn.innerText = 'Search';
+                        trackBtn.disabled = false;
                     }
                 });
 
